@@ -1,0 +1,77 @@
+v1.0.1+12,,,,,,,,
+ID,Módulo,Descripción del Test,Resultado Esperado,Estado Actual (v1.0.1+12),Comentarios,,,Firma QA
+CONFIGURACIÓN INICIAL,,,,,,,,
+CU-CFG-001,Inicial,POS Nuevo escanea Token QR válido y obtiene access_token,Se obtiene access_token y refresh_token válidos; POS queda habilitado con el cierre vigente cargado,✅ Pasa,,,,TRUE
+CU-CFG-002,Inicial,POS Nuevo escanea Token QR vencido (>10m),Sistema rechaza el QR y muestra mensaje de error; solicita nuevo QR o login con usuario/contraseña en bsecurity,✅ Pasa,,,,TRUE
+CU-CFG-003,Inicial,access_token vencido se refresca automáticamente con refresh_token,La sesión se renueva sin intervención del operador; si falla el refresh solicita usuario y contraseña en bsecurity,Pendiente,,,,FALSE
+CIERRES Y HORARIOS,,,,,,,,
+CU-CIE-001,Cierres,"Antes de las 14hs: ambos sorteos (Vesp y Noct) están apostables","El cierre muestra Vesp y Noct disponibles; se puede apostar a ambos",Pendiente,,,,FALSE
+CU-CIE-002,Cierres,Pasadas las 14hs: solo el sorteo Nocturno queda apostable,El Vespertino desaparece de los sorteos disponibles; solo se puede apostar al Nocturno,Pendiente,,,,FALSE
+CU-CIE-003,Cierres,Pasadas las 20hs: ningún sorteo de Juegos Tradicionales está apostable,Quiniela y Tómbola no permiten nuevas apuestas; el sistema muestra que no hay cierres activos,Pendiente,,,,FALSE
+CU-CIE-004,Cierres,Miércoles pasadas las 20hs: 5 de Oro no disponible hasta las 22:30,El sistema rechaza apuestas al 5 de Oro y no lo muestra hasta que el servidor libere el siguiente cierre,Pendiente,,,,FALSE
+CU-CIE-005,Cierres,El cambio de cierre se actualiza automáticamente (sin reiniciar POS),Al expirar `fechaCierre` el sistema actualiza los sorteos apostables en forma automática sin intervención del operador,⛔ Falla,"Pasó una hora después del cierre y no se actualizó. Tuvo que ir manualmente a actualizar sorteos.",,FALSE
+QUINIELA,,,,,,,,
+CU-QUI-001,Quiniela,Quiniela 1 cifra: 1 a la cabeza $50 (Vesp/Noct),Cupón emitido con 1 dígito y posición cabeza correcto. Importe $50,✅ Pasa,,,,TRUE
+CU-QUI-002,Quiniela,Quiniela 2 cifras: 1 a la cabeza $100 (Vesp/Noct),Cupón emitido con 2 dígitos y posición cabeza correcto. Importe $100,✅ Pasa,,,,TRUE
+CU-QUI-003,Quiniela,Quiniela 3 cifras: 1 a la cabeza $200 (Vesp/Noct),Cupón emitido con 3 dígitos y posición cabeza correcto. Importe $200,✅ Pasa,,,,TRUE
+CU-QUI-004,Quiniela,Quiniela 2 cifras: 20 a los premios $50 (Vesp/Noct),Cupón emitido con 2 dígitos y posición premios 1-20 correcto. Importe $50,✅ Pasa,,,,TRUE
+CU-QUI-005,Quiniela,Quiniela 2 cifras: 10 a los premios $100 (Vesp/Noct),Cupón emitido con 2 dígitos y posición premios 1-10 correcto. Importe $100,✅ Pasa,,,,TRUE
+CU-QUI-006,Quiniela,Combinación de Sorteos (Quiniela),Verificar que genera distintos tickets según los sorteos seleccionados,✅ Pasa,,,,TRUE
+CU-QUI-008,Quiniela,Quiniela con importe menor al permitido,Sistema arroja error de monto mínimo,Pendiente,,,,FALSE
+TÓMBOLA,,,,,,,,
+CU-TOM-001,Tómbola,Tómbola 3 números: $50 (Vesp/Noct),Cupón con 3 números. Importe $50,✅ Pasa,,,,TRUE
+CU-TOM-002,Tómbola,Tómbola 4 números: $100 (Vesp/Noct),Cupón con 4 números. Importe $100,✅ Pasa,,,,TRUE
+CU-TOM-003,Tómbola,Tómbola 5 números: $200 (Vesp/Noct),Cupón con 5 números (Máximo). Importe $200,✅ Pasa,,,,TRUE
+CU-TOM-004,Tómbola,Tómbola 6 números: $50 (Vesp/Noct),Cupón con 6 números. Importe $50,✅ Pasa,,,,TRUE
+CU-TOM-005,Tómbola,Tómbola 7 números: $100 (Vesp/Noct),Cupón con 7 números. Importe $100,✅ Pasa,,,,TRUE
+CU-TOM-006,Tómbola,Tómbola con menos de 3 números,Sistema no permite emitir; error de validación,✅ Pasa,,,,TRUE
+CU-TOM-007,Tómbola,Tómbola con números duplicados,Sistema arroja error "Números repetidos",✅ Pasa,,,,TRUE
+5 DE ORO,,,,,,,,
+CU-5DO-001,5 de Oro,Jugada Simple (5 números) $50,Cupón emitido con 5 números,Pendiente,,,,FALSE
+CU-5DO-002,5 de Oro,Jugada con Revancha $100,Cupón incluye Revancha,Pendiente,,,,FALSE
+CU-5DO-003,5 de Oro,Jugada Múltiple (6 números) con Revancha,Cupón procesa jugada múltiple según tabla de importes oficial,✅ Pasa,,,,TRUE
+CU-5DO-004,5 de Oro,Repetición de Cupón,Verificar que el sistema permite repetir una jugada anterior de 5 de Oro,✅ Pasa,,,,TRUE
+CU-5OR-005,5 de Oro,Revancha Sorpresa,Sistema genera revancha aleatoria del 01 al 48 sin repetir; cupón emitido,✅ Pasa,,,,TRUE
+CU-5OR-006,5 de Oro,Común Múltiple Sorpresa 4 números,Sistema aplica combinaciones automáticas; cupón múltiple emitido,✅ Pasa,,,,TRUE
+CU-5OR-007,5 de Oro,"Común Múltiple: 6, 7 y 8 números",Sistema calcula combinaciones para cada cantidad; cupones emitidos y montos correctos,✅ Pasa,,,,TRUE
+CU-5OR-008,5 de Oro,"Revancha Múltiple: 4, 6, 7 y 8 números",Revancha múltiple aceptada; montos totales correctos,✅ Pasa,,,,TRUE
+CU-5OR-009,5 de Oro,Revancha Múltiple Sorpresa 8 números,Sistema genera 8 números aleatorios del 01 al 48 con revancha múltiple; cupón emitido,✅ Pasa,,,,TRUE
+CU-5OR-010,5 de Oro,Revancha 5 números x 3 Sorteos Futuros (Sorpresa),Cupón incluye 3 fechas futuras de sorteo; importes multiplicados correctamente,✅ Pasa,,,,TRUE
+ANULACIONES,,,,,,,,
+CU-CAN-001,Anula,Anular ticket inmediato (Quiniela/Tómbola),Ticket anulado correctamente,Pendiente,,,,FALSE
+CU-CAN-002,Anula,Anular ticket dferido (5 de Oro),Permite anular siempre que el sorteo no haya cerrado o pasado el tiempo límite,✅ Pasa,,,,TRUE
+CU-CAN-003,Anula,Intento de anular ticket ya anulado,Sistema arroja error "Ticket ya anulado",Pendiente,,,,FALSE
+CU-CAN-004,Anula,Intento de anular ticket de sorteo cerrado,Sistema arroja error "No permitido",🚧 Bloqueado,verificar mensajes,,FALSE
+PAGOS DE ACIERTOS,,,,,,,,
+CU-PAG-001,Pagos,Pagar acierto,Validación exitosa; emisión de conprobante de pago,✅ Pasa,,,,TRUE
+CU-PAG-002,Pagos,Pagar acierto (Tómbola),Validación exitosa; emisión de conprobante de pago,✅ Pasa,,,,TRUE
+CU-PAG-003,Pagos,Intento cobro ticket perdedor,Sistema arroja error "Ticket sin premio",✅ Pasa,,,,TRUE
+CU-PAG-004,Pagos,Intento cobro ticket ya pago,Mustra correctamente informacion del pago,✅ Pasa,,,,TRUE
+CU-PAG-005,Pagos,Cobro ticket vencido (>30 días o según ley),-,🚧 Bloqueado,Revisar mensajes y caso de uso,,FALSE
+IMPRESIÓN,,,,,,,,
+CU-IMP-001,Printer,Impresión de ticket legible,CB legible por scanner; datos de agencia y fecha correctos,✅ Pasa,,,,TRUE
+CU-IMP-002,Printer,Falta de papel durante impresión,Sistema detecta error y permite re-imprimir una vez cargado el papel,Pendiente,,,,FALSE
+SIN CONECTIVIDAD (A DETERMINAR),,,,,,,,
+CU-OFF-001,Offline,Intento de venta sin internet,Sistema debe informar falta de conexión (si no hay modo offline permitido),Pendiente,Pendiente de definir caso de uso,,FALSE
+CU-OFF-002,Offline,Reintento automático al recuperar conexión,Sincronización de transacciones pendientes en el POS,Pendiente,Pendiente de definir caso de uso,,FALSE
+UX Y NAVEGACIÓN,,,,,,,,
+CU-NAV-001,UX,Tiempo de respuesta entre pantallas < 1s,Navegación fluida sin lags perceptibles,✅ Pasa,,,,TRUE
+REGLAS DE NEGOCIO (SORTEOS),,,,,,,,
+CU-RN-001,Reglas,Control de horario de cierre estricto,No permite vender Quiniela/Tómbola si el reloj del POS > hora de cierre del sorteo,🚧 Bloqueado,Revisar caso de uso,,FALSE
+CU-RN-002,Reglas,Importes mínimos y máximos por apuesta,Sistema valida que la apuesta esté en el rango permitido antes de emitir,Pendiente,,,,FALSE
+ALTERNATIVAS,,,,,,,,
+CU-ALT-001,Alternativas,Jugada rechazada SIN alternativa,Sistema informa jugada rechazada, solo deja confirmar,✅ Pasa,,,,TRUE
+CU-ALT-002,Alternativas,Jugada rechazada CON alternativa,Sistema propone alternativas parciales de la banca,Pendiente,,,,FALSE
+CU-ALT-003,Alternativas,Rechazar alternativa (No confirmar),Permite cancelar la operación sin agregar nada al carrito,✅ Pasa,,,,TRUE
+CU-ALT-004,Alternativas,Confirmar alternativa,Agrega la propuesta aceptada al carrito correctamente,✅ Pasa,,,,TRUE
+CARRITO,,,,,,,,
+CU-CAR-001,Carrito,Acumulación de jugadas,Suma de importes correcta al agregar múltiples tickets (incluyendo alternativas aceptadas),✅ Pasa,,,,TRUE
+CU-CAR-002,Carrito,Acumulación con pago de aciertos,Resta el valor del acierto al total del carrito correctamente (Saldo neto),✅ Pasa,,,,TRUE
+CU-CAR-003,Carrito,Editar jugada desde el carrito,Permite nodificar dígitos o montos de una jugada previa al pago final,✅ Pasa,,,,TRUE
+CU-CAR-004,Carrito,Eliminar jugada del carrito,Permite quitar un ticket específico antes de la confirmación de pago,✅ Pasa,,,,TRUE
+BUGS A TESTEAR,,,,,,,,
+BUG-TOM-001,Tómbola,Tecleo rápido terminando en '4' pierde el dígito al confirmar (v1.0.1+12),,⛔ Falla,Esperando siguiente versión,,FALSE
+BUG-5OR-001,5 de Oro,Consulta de Sorteo sin Resultados muestra Pantalla Gris en lugar de mensaje vacío (v1.0.1+12),,⛔ Falla,Esperando siguiente versión,,FALSE
+BUG-LOT-192,Lotería,QR impreso en cupón de Lotería es ilegible por tamaño reducido (v1.0.1+12),,⛔ Falla,Esperando siguiente versión,,FALSE
+BUG-CAR-001,Carrito,Banca ofrece alternativas parciales pero oculta el desglose por sorteo (v1.0.1+12),,⛔ Falla,Esperando siguiente versión,,FALSE
+BUG-CFG-001,SO/Tablet,Cambiar sonido de Terminal bloquea la UI del POS (v1.0.1+12),,⛔ Falla,Esperando siguiente versión,,FALSE

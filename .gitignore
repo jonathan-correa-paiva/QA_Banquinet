@@ -1,0 +1,4 @@
+.agent_rules/*_PRIVATE.md
+.obsidian/
+node_modules/
+.DS_Store
