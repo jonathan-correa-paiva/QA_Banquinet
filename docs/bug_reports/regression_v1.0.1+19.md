@@ -3,6 +3,7 @@
 **Fecha de Revisión:** 06/03/2026
 **QA:** Jonathan Correa
 **Grado de Certeza:** Confirmado Visualmente (Release build con AOT)
+**Nota:** Este reporte refleja el estado hasta la reunión del 10/03/2026.
 
 ---
 
@@ -57,20 +58,25 @@
 - **Riesgo:** Bloqueo silencioso de la UI (Application hang). El subagente no ve un error claro y el terminal queda inoperable hasta reiniciarlo.
 - **Estado:** Descubierto activo en v1.0.1+19. Pendiente de fix.
 
+### [BUG-5OR-003] 5 de Oro: El botón cambia de "Ingresar" a "Emitir" prematuramente ante error de validación → **LOW** ⚠️
+
+- **Descripción:** Al editar una jugada (ej. eliminar un número de un sorpresa), el validador indica correctamente el error. Sin embargo, el botón de acción cambia de "Ingresar" a "Emitir" aunque la jugada actual sea inválida.
+- **Riesgo:** Si el usuario toca "Emitir", se procesa el carrito sin la jugada que estaba intentando corregir, perdiendo la entrada sin previo aviso.
+- **Estado:** Confirmado activo en v1.0.1+19. Pendiente de fix.
+
 *(Sin novedades adicionales: verificar bugs arrastrados listados en la parte inferior)*
 
 ---
 
 ## 🔍 Observaciones y Comportamientos bajo Investigación
 
-### [BUG-QUI-001] Carrito mixto: App cuelga en "Autorizando" ante demora >100s del servidor
+### [REVISAR-QUI-001] Carrito Mixto: Bloqueo de UI (Application Hang) ante latencia extrema
 >
 > [Ver reporte detallado](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/individual/BUG-QUI-001.md)
 
-- **Descripción:** Al enviar un carrito con QUI + TOM, el servidor tardó 101 segundos en responder (con `jugadasRechazadas` + alternativa). La app quedó bloqueada en el estado "Autorizando" y nunca mostró el diálogo de alternativas.
-- **Estado de Investigación:** No se puede confirmar como bug de lógica de apuesta aún. Se sospecha una interacción entre el upload de logs y la cola de Dio.
-- **Hipótesis:** El cliente HTTP (Dio) comparte cola entre el servicio de envío de logs y el de autorizaciones. El upload de logs bloqueó la cola ~100s.
-- **Acción:** Consultar con desarrollo la prioridad del servicio de logs vs transacciones.
+- **Descripción:** Al enviar un carrito con QUI + TOM con latencia de red (>100s), la aplicación queda bloqueada (freeze) en "Autorizando". El sistema no recupera el control ni siquiera tras recibir la respuesta del servidor con alternativas.
+- **Falla Confirmada:** El bloqueo indefinido de la UI es un comportamiento de falla (Application Hang). La app no debería quedar "trancada" independientemente de la demora del backend.
+- **Estado de Investigación:** Pendiente de revisión técnica para determinar si la causa es la saturación de la cola de Dio por el upload de logs o un problema de manejo de estado en el bloc de la pantalla.
 
 ### [BUG-CIE-005] Cierres: No se actualiza automáticamente al expirar `fechaCierre`
 
@@ -79,13 +85,7 @@
 - **Comportamiento Esperado:** Actualización automática dentro de ventana aceptable (≤5min) al agotarse el cierre vigente.
 - **Estado:** Arrastrado desde v1.0.1+12. Reproducido en v1.0.1+19. Pendiente de fix.
 
-### [BUG-5OR-003] 5 de Oro: El botón cambia de "Ingresar" a "Emitir" prematuramente ante error de validación
->
-> [Ver reporte detallado](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/individual/BUG-5OR-003.md)
-
-- **Descripción:** Al editar una jugada (ej. eliminar un número de un sorpresa), el validador indica correctamente el error. Sin embargo, el botón de acción cambia de "Ingresar" a "Emitir" aunque la jugada actual sea inválida.
-- **Riesgo:** Si el usuario toca "Emitir", se procesa el carrito sin la jugada que estaba intentando corregir, perdiendo la entrada sin previo aviso.
-- **Estado:** **Confirmado activo en v1.0.1+19.** Los botones Ingresar/Emitir desaparecen al fallar la validación. Pendiente de fix.
+*(Sin novedades adicionales: verificar bugs arrastrados listados en la parte inferior)*
 
 ---
 
@@ -93,18 +93,22 @@
 
 | Módulo | Total | Automatizados | Pendientes |
 | :--- | :---: | :---: | :---: |
-| Quiniela | 22 | 11 | 11 |
+| Quiniela | 22 | 18 | 4 |
 | Tómbola | 11 | 11 | 0 |
-| 5 de Oro | 13 | 11 | 2 |
+| 5 de Oro | 13 | 13 | 0 |
+| Lotería | 6 | 6 | 0 |
 | Supermatch | 2 | 1 | 1 |
-| Digitales (Pines/Recargas) | 6 | 2 | 4 |
+| Digitales (Pines/Recargas) | 6 | 6 | 0 |
 | Mi Negocio | 12 | 12 | 0 |
 | Configuración | 2 | 2 | 0 |
-| Anulaciones | 4 | 3 | 1 |
-| Pagos | 5 | 2 | 3 |
-| Alternativas | 4 | 2 | 2 |
+| Anulaciones | 4 | 1 | 3 |
+| Pagos | 8 | 7 | 1 |
+| Alternativas | 4 | 4 | 0 |
 | Carrito | 4 | 4 | 0 |
-| Config. Inicial | 3 | 0 | 3 |
-| Cierres | 5 | 0 | 5 |
+| Config. Inicial | 3 | 1 | 2 |
+| Cierres | 5 | 1 | 4 |
+| Impresión | 2 | 2 | 0 |
+| Sin Conectividad | 2 | 0 | 2 |
+| Reglas de Negocio | 2 | 0 | 2 |
 | UX Y Navegación | 1 | 1 | 0 |
-| **TOTAL** | **94** | **67** | **27** |
+| **TOTAL** | **109** | **90** | **19** |
