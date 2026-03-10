@@ -1,16 +1,16 @@
 # 📝 Escenarios Gherkin: Bugs Activos v1.0.1+19
 
-## [BUG-CAR-003] Carrito: App cuelga al emitir tras vaciar jugada única
+## [BUG-CAR-003] Carrito: App cuelga al emitir tras vaciar jugada única (vía Menú Contextual)
 
-**Escenario:** Bloqueo de UI al intentar emitir un carrito que quedó vacío por borrado manual
+**Escenario:** El botón de emisión no se inhabilita al vaciar el carrito mediante el menú de opciones
   **Dado** que el usuario tiene exactamente una jugada en el carrito
-  **Y** el usuario está en la pantalla del carrito
-  **Cuando** el usuario borra la única jugada del carrito
-  **Entonces** el carrito debe mostrarse vacío
-  **Y** el botón de acción principal DEBERÍA cambiar a "Volver" o deshabilitarse
-  **Pero** el botón sigue diciendo "Emitir" (Falla)
-  **Cuando** el usuario presiona el botón "Emitir"
-  **Entonces** la aplicación entra en estado "Autorizando" y queda bloqueada indefinidamente
+  **Y** el usuario abre el menú de opciones (tres puntos) de la jugada
+  **Y** el usuario selecciona la opción para borrar la jugada
+  **Cuando** la jugada es eliminada y el carrito queda vacío
+  **Entonces** la aplicación DEBERÍA inhabilitar el botón "Emitir" o cambiarlo a "Volver"
+  **Pero** la aplicación no inhabilita el botón "Emitir" (Falla)
+  **Cuando** el usuario presiona el botón "Emitir" con el carrito vacío
+  **Entonces** la aplicación entra en un estado "Autorizando" y queda bloqueada infinitamente (Hang)
 
 ---
 
@@ -43,12 +43,14 @@
 
 ---
 
-## [BUG-CIE-005] Cierres: Falta de auto-refresh de sorteos
+## [BUG-CIE-005] Lista de Sorteos: Falta de auto-refresco de sorteos
 
-**Escenario:** Intento de apuesta a sorteos caducados por falta de actualización
-  **Dado** que ha expirado la `fechaCierre` del sorteo vigente
-  **Cuando** el sistema llega a la hora del cierre
-  **Entonces** el POS DEBERÍA actualizar automáticamente la lista de sorteos apostables (≤ 5 min)
-  **Pero** el POS mantiene los sorteos anteriores (Falla)
-  **Y** si el operador intenta apostar, el sistema falla por intentar jugar a sorteos de fechas pasadas
-  **Y** el operador se ve obligado a ir a "Configuración -> Actualizar Sorteos" manualmente
+**Escenario:** La lista de sorteos no se actualiza automáticamente al alcanzarse la fecha de cierre
+  **Dado** que el POS está encendido y mostrando la lista de sorteos
+  **Y** se alcanza la `fechaCierre` de uno o más sorteos vigentes
+  **Cuando** el tiempo transcurre pasada la fecha de cierre
+  **Entonces** el sistema DEBERÍA refrescar automáticamente la lista de sorteos disponibles
+  **Pero** el POS mantiene los sorteos caducados en la lista (Falla)
+  **Y** si el usuario intenta realizar una apuesta a uno de esos sorteos caducados
+  **Entonces** el sistema rechaza la apuesta por fecha inválida (Comportamiento observado)
+  **Nota:** El foco del bug es la falta de actualización de la UI, no la apuesta en sí.

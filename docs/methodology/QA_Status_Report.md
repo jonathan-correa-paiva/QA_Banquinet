@@ -1,27 +1,21 @@
-# 📊 Status Check - QA Banquinet
+# 📊 Status Check - QA Banquinet (v1.0.1+20)
 
-Este documento resume el estado técnico actual del repositorio, detallando los Casos de Uso (CU) y Bugs (Defectos) actualmente mapeados en nuestra base de conocimientos. Sirve como punto de sincronización para la siguiente sesión de desarrollo.
+Este documento resume el estado técnico actualizado según el nuevo **Protocolo de QA (10-Mar-2026)**.
 
-## 📋 Casos de Uso (CU) Definidos
-Actualmente, los siguientes Casos de Uso de la Quiniela Oficial están formalmente documentados (`quiniela_logica_oficial.md`):
+## 📑 Metodología Actualizada
+Hemos adoptado un sistema de autodocumentación estructurado para unificar el lenguaje entre Soporte y Desarrollo:
+*   **Referencia:** [QA_Workflow.md](../methodology/QA_Workflow.md)
+*   **Lenguaje:** Gherkin (Dado/Cuando/Entonces).
+*   **Matriz:** Doble estado (Tipo de Automatización + Resultado de Test).
 
-*   **CU-QUI-001:** Apuesta a 3 cifras. (Multiplicador 500x, rango de premio 1-20)
-*   **CU-QUI-002:** Apuesta a 2 cifras. (Multiplicador 70x, rango de premio 1-20)
-*   **CU-QUI-003:** Apuesta a 1 cifra. (Multiplicador 7x, rango de premio 1-20, incluye multiplicador por repetición)
-*   **CU-QUI-004:** Apuesta válida de Redoblona. (Jerarquía de premios estricta)
-*   **CU-QUI-005:** Horarios de Recepción. (Corte Vespertino 14:00:01 y Nocturno 20:00:01)
-*   **EC-QUI-001:** Redoblona con Premio Inválido (Edge Case de validación de negocio)
+## 🪲 Bugs Activos v1.0.1+20 (Baseline v19)
+*   **[BUG-CAR-003]** Carrito Hang: Botón "Emitir" habilitado tras vaciar vía menú contextual.
+*   **[BUG-CIE-005]** Lista de Sorteos: Falta de auto-refresco al alcanzar la fecha de cierre.
+*   **[REVISAR-QUI-001]** UI Hang: Bloqueo en carritos mixtos por latencia/logs.
+*   **[BUG-5OR-003]** 5 de Oro: Botón "Emitir" prematuro ante errores de validación.
 
-
-## 🪲 Bugs Mapeados (Regresión v1.0.1+12)
-Los siguientes defectos están formalizados con formato estándar (`regression_v1.0.1+12.md`):
-
-*   **[BUG-CAR-001]** Carrito: Visualización de alternativas múltiples. (Falla el desglose individual de apuestas).
-*   **[BUG-TOM-001]** Tómbola: Pérdida del último dígito. (Ignora el último número ingresado sin Enter).
-*   **[BUG-CFG-001]** Preferencias: Bloqueo "Pantalla Gris". (Crash de interfaz al operar "Alerta por importe").
-*   **[BUG-LOT-192]** Lotería: QR ilegible por escala. (Problemas de decodificación física).
-*   **[BUG-CIE-005]** Cierres: Fallo en actualización automática de sorteos. (Requiere actualización manual del operador).
-
+## 📈 Matriz de Seguimiento
+La ejecución de la versión 20 se registra en: [matriz_1.0.1+20.csv](../bug_reports/matriz_1.0.1+20.csv)
 
 ---
-*Reporte generado automáticamente bajo framework Code_Weaver.*
+*Reporte actualizado automáticamente. Última revisión: 10/03/2026.*
