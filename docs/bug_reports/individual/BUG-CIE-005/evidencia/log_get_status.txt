@@ -1,0 +1,19 @@
+2026-03-12 20:03:04.197 [bol-api-pekko.actor.default-dispatcher-7883] DEBUG c.b.b.s.status.GetStatusHandler - Dialog: 35391d1c-d4be-4f79-896c-d4ba8bdef9bb
+Start: 2026-03-12T20:03:04.197830065
+Request:null
+2026-03-12 20:03:04.198 [bol-api-pekko.actor.default-dispatcher-7883] DEBUG c.b.b.s.status.GetStatusHandler - Dialog: 35391d1c-d4be-4f79-896c-d4ba8bdef9bb
+Start: 2026-03-12T20:03:04.197830065
+Request:null
+----------------------------------------
+Response:{
+  "statusCode" : 200,
+  "entity" : {
+    "name" : "bol-api",
+    "version" : "1.1.0-SNAPSHOT",
+    "builtAt" : "2026-02-11T12:34:19",
+    "startedAt" : "2026-03-06T11:57:19",
+    "currentTime" : "2026-03-12T20:03:04",
+    "environment" : "developer",
+    "status" : "OK"
+  }
+}

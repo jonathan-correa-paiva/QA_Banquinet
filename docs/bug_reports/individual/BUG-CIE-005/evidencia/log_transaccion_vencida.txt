@@ -1,0 +1,36 @@
+2026-03-13 11:43:15.877 [bol-api-pekko.actor.default-dispatcher-8603] DEBUG c.b.b.db.repos.TransactionRepository - INSERT INTO bolserver.Transactions (uuid, nroTerminal, received, request, status, response) VALUES ('3a47271f-40aa-4e3b-84dd-b3637c3f784b', 181, '2026-03-13 11:41:23', '{"recibido":"2026-03-13T11:41:23.776269","authorizationId":"3a47271f-40aa-4e3b-84dd-b3637c3f784b","autorizar":{"producto":"TOM","nroSorteo":30302,"jugadas":[{"modalidad":"T7","nros":[10,18,21,39,65,70,73],"apuesta":50}]}}', 0, NULL)
+2026-03-13 11:43:15.900 [bol-api-pekko.actor.default-dispatcher-8603] INFO  com.bqn.bol.Dialoger - received: SEND_DOC_RESP (ver.19.2.1)
+---Accepted------Rejected---
+        original 10,18,21,39,65,70,73 $50.00
+
+2026-03-13 11:43:15.901 [bol-api-pekko.actor.default-dispatcher-8603] DEBUG c.b.b.s.b.autorizar.AutorizarHandler - Dialog: e069afcd-722d-404e-9d61-ee0834be1521
+Start: 2026-03-13T11:43:15.873450425
+Request:{
+  "recibido" : "2026-03-13T11:41:23.776269",
+  "authorizationId" : "3a47271f-40aa-4e3b-84dd-b3637c3f784b",
+  "autorizar" : {
+    "producto" : "TOM",
+    "nroSorteo" : 30302,
+    "jugadas" : [ {
+      "modalidad" : "T7",
+      "nros" : [ 10, 18, 21, 39, 65, 70, 73 ],
+      "apuesta" : 50
+    } ]
+  }
+}
+----------------------------------------
+Response:{
+  "statusCode" : 200,
+  "entity" : {
+    "documentosAutorizados" : [ ],
+    "jugadasRechazadas" : [ {
+      "nroSorteo" : 30302,
+      "jugada" : {
+        "modalidad" : "T7",
+        "nros" : [ 10, 18, 21, 39, 65, 70, 73 ],
+        "apuesta" : 50
+      }
+    } ]
+  }
+}
+Duration:27 ms

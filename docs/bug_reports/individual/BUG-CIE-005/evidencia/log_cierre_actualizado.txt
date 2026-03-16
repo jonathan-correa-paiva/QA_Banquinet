@@ -1,0 +1,25 @@
+2026-03-12 14:06:55.908 [bol-api-pekko.actor.default-dispatcher-7396] DEBUG c.b.b.s.pos.logs.PosLogsHandler - Dialog: ee052bff-e33e-4e51-be17-551ed91de5b0
+Start: 2026-03-12T14:06:55.908634920
+Request:{
+  "logs" : [ {
+    "level" : "INFO",
+    "message" : "GET Request: cierres - Params: null",
+    "time" : "2026-03-12T14:01:30.033461",
+    "module" : "dioAdapter"
+  }, {
+    "level" : "INFO",
+    "message" : "POST Request: cierres/cambio",
+    "time" : "2026-03-12T14:01:30.555967",
+    "module" : "dioAdapter"
+  }, {
+    "level" : "INFO",
+    "message" : "Cierre actualizado: 2026-03-12 20:00:00.000",
+    "time" : "2026-03-12T14:01:30.745331",
+    "module" : "cierres"
+  }, { 
+    "level" : "INFO",
+    "message" : "GET Request: config/juegos - Params: {fechaCierre: 2026-03-12T20:00:00.000}",
+    "time" : "2026-03-12T14:01:30.797276",
+    "module" : "dioAdapter"
+  } ]
+}   

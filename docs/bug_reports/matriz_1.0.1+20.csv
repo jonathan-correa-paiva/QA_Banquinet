@@ -1,5 +1,5 @@
 v1.0.1+20,,,,,,,
-ID,Módulo,Descripción del Test,Resultado Esperado,Tipo Autom.,Estado Test,Comentarios
+ID,Módulo,Descripción del Test,Resultado Esperado,Tipo Autom.,Estado Test,Comentarios,Tags
 CONFIGURACIÓN INICIAL,,,,,,,
 CU-CFG-001,Inicial,POS Nuevo escanea Token QR válido y obtiene access_token,Se obtiene access_token y refresh_token válidos; POS queda habilitado con el cierre vigente cargado,Manual,✅ Pasa,
 CU-CFG-002,Inicial,POS Nuevo escanea Token QR vencido (>10m),Sistema rechaza el QR y muestra mensaje de error; solicita nuevo QR o login con usuario/contraseña en bsecurity,Manual,Pendiente,
@@ -9,7 +9,7 @@ CU-CIE-001,Cierres,Antes de las 14hs: ambos sorteos (Vesp y Noct) están apostab
 CU-CIE-002,Cierres,Pasadas las 14hs: solo el sorteo Nocturno queda apostable,El Vespertino desaparece de los sorteos disponibles; solo se puede apostar al Nocturno,Manual,Pendiente,
 CU-CIE-003,Cierres,Pasadas las 20hs: ningún sorteo de Juegos Tradicionales está apostable,Quiniela y Tómbola no permiten nuevas apuestas; el sistema muestra que no hay cierres activos,Manual,Pendiente,
 CU-CIE-004,Cierres,Miércoles pasadas las 20hs: 5 de Oro no disponible hasta las 22:30,El sistema rechaza apuestas al 5 de Oro y no lo muestra hasta que el servidor libere el siguiente cierre,Manual,Pendiente,
-CU-CIE-005,Cierres,La lista de sorteos se actualiza automáticamente (sin reiniciar POS),Al expirar `fechaCierre` el sistema actualiza los sorteos apostables en forma automática sin intervención del operador,Manual,⛔ Falla,"Falla en build Release Candidate (RC) al mediodía; sin embargo, en debug local funciona correctamente (Nacho). Pendiente de revisión de lógica por entorno."
+CU-CIE-005,Cierres,La lista de sorteos se actualiza automáticamente (sin reiniciar POS),Al expirar `fechaCierre` el sistema actualiza los sorteos apostables en forma automática sin intervención del operador,Manual,⛔ Falla,"Falla en build Release Candidate (RC) al mediodía; sin embargo, en debug local funciona correctamente (Nacho). Pendiente de revisión de lógica por entorno.",#bug #cierres #automatico #rc
 QUINIELA,,,,,,,
 QUI-1CS-001,Quiniela,1 cifra: sorteos Vesp+Noct $50 -> carrito $100,Carrito $100 y campos limpios,Automático,✅ Pasa,
 QUI-1CE-002,Quiniela,1 cifra: premio al límite (premio 20) $20,Jugada aceptada,Automático,✅ Pasa,
@@ -60,13 +60,13 @@ ORO-RM7-003,5 de Oro,Jugada de 7 Números Revancha,El sistema agrega la jugada c
 ORO-RM8-004,5 de Oro,Jugada de 8 Números Revancha,El sistema agrega la jugada correctamente y el total de la venta se actualiza,Automático,✅ Pasa,
 ORO-FR5-001,5 de Oro,Jugada de 5 Números Revancha a 3 sorteos futuros sorpresa,El sistema agrega las jugadas correctamente y el total de la venta se actualiza,Automático,✅ Pasa,
 LOTERÍA,,,,,,,
-LOT-ENT-001,Lotería,Jugar Lotería de un entero buscado por número,Agrega el entero al carrito correctamente,Automático,⛔ Falla,"Falla en autorización al seleccionar 'Entero'. Funciona si se eligen 10 fracciones."
+LOT-ENT-001,Lotería,Jugar Lotería de un entero buscado por número,Agrega el entero al carrito correctamente,Automático,⛔ Falla,"Falla en autorización al seleccionar 'Entero'. Funciona si se eligen 10 fracciones.",
 LOT-ENT-002,Lotería,Jugar Lotería buscado por número no existente,Muestra un mensaje de error y no lo agrega,Automático,✅ Pasa,
 LOT-FRA-001,Lotería,Ingresar 2 fracciones de un número de Lotería,Busca el número y agrega las 2 fracciones al carrito,Automático,✅ Pasa,
-LOT-RES-001,Lotería,Realizar una reserva de un entero de Lotería,Agrega la reserva al carrito correctamente,Automático,⛔ Bloqueado,Falla en entorno de testing. Pendiente de revisión de datos/ambiente.
-LOT-RES-002,Lotería,Realizar reserva de un entero con otra jugada en el carrito,Muestra error porque una reserva debe ir sola en el carrito,Automático,⛔ Bloqueado,Idem LOT-RES-001.
+LOT-RES-001,Lotería,Realizar una reserva de un entero de Lotería,Agrega la reserva al carrito correctamente,Automático,⛔ Bloqueado,Falla en entorno de testing. Pendiente de revisión de datos/ambiente.,
+LOT-RES-002,Lotería,Realizar reserva de un entero con otra jugada en el carrito,Muestra error porque una reserva debe ir sola en el carrito,Automático,⛔ Bloqueado,Idem LOT-RES-001.,
 LOT-VER-001,Lotería,Listar el estado de las reservas de Lotería,Se listan todas las reservas correctamente en la pestaña correspondiente,Automático,✅ Pasa,
-BUG-LOT-001,Lotería,Dropdown no actualiza correctamente tras venta parcial,,Manual,⛔ Falla,Fallo 'Entero' en autorización. Tras venta de 9/10, el texto dice '1/10' (OK), pero el menú sigue mostrando opciones 2-9 (Error). Pendiente revisión de logs.
+BUG-LOT-001,Lotería,Dropdown no actualiza correctamente tras venta parcial,,Manual,⛔ Falla,Fallo 'Entero' en autorización. Tras venta de 9/10, el texto dice '1/10' (OK), pero el menú sigue mostrando opciones 2-9 (Error). Pendiente revisión de logs.,#bug #loteria #dropdown #stock
 SUPERMATCH,,,,,,,
 SUP-SUC-001,Supermatch,Ingresar una prearmada existente y agregarla al carrito,Se listan las lineas y opciones de la prearmada y se almacena en el carrito,Automático,✅ Pasa,
 SUP-INV-002,Supermatch,Ingresar una prearmada no existente y buscarla,Se muestra un cartel de error,Manual,Pendiente,
@@ -129,15 +129,15 @@ CU-CAR-002,Carrito,Eliminar una jugada específica del carrito,Permite quitar un
 CU-CAR-003,Carrito,Vaciar el carrito completamente,Eliminar todas las jugadas del carrito en una sola acción,Automático,✅ Pasa,
 CU-CAR-310,Carrito,Falla al eliminar última jugada del carrito (v1.0.1+20),No debe colgar la app,Manual,✅ Pasa,
 BUGS Y FEATURES A TRATAR,,,,,,,
-BUG-TOM-001,Tómbola,Tecleo rápido terminando en '4' pierde el dígito al confirmar (v1.0.1+17),,Manual,✅ Pasa,Resuelto en v1.0.1+17
-BUG-5OR-001,5 de Oro,Consulta de Sorteo sin Resultados mostraba Pantalla Gris,,Manual,✅ Pasa,Resuelto en v1.0.1+17
-BUG-5OR-002,5 de Oro,Selector de fecha queda deshabilitado tras visitar sorteo sin resultados,,Manual,✅ Pasa,Resuelto en v1.0.1+17
-BUG-CFG-001,SO/Tablet,Cambiar sonido de Terminal bloquea la UI del POS,,Manual,✅ Pasa,Verificado en v1.0.1+20.
-BUG-PAG-199,Pagos,Imprimir detalles del acierto antes de pagar,,Manual,✅ Pasa,Functional (REQ-228 union)
-BUG-RN-102,Reglas,Alerta por importe máximo excedido (Issue 102),,Manual,✅ Pasa,"Funciona por jugada individual. Caveat: No aplica al acumulado del carrito."
-BUG-CFG-002,Config,PIN visible (sin asteriscos) en pantalla de Alerta por importe,,Manual,⛔ Falla,Falta masking en inputs.
-BUG-CFG-003,Config,Desincronización de PIN entre pantallas,,Manual,⛔ Falla,Cambiar PIN en Preferencias no actualiza el de Alertas.
-BUG-CFG-004,Config,Falta de botón Confirmar al cambiar PIN existente,,Manual,⛔ Falla,Requiere Enter en teclado.
-BUG-LOT-192,Lotería,QR de Lotería ilegible (v1.0.1+20),,Manual,✅ Pasa,Cerrado por decisión (solo lectura móvil).
+BUG-QUI-001,Quiniela,Error de redondeo en premios de 3 cifras,,Manual,✅ Pasa,Resuelto en v1.0.1+17,#bug #quiniela #redondeo #premios
+BUG-5OR-001,5 de Oro,Consulta de Sorteo sin Resultados mostraba Pantalla Gris,,Manual,✅ Pasa,Resuelto en v1.0.1+17,#bug #5deoro #ui
+BUG-5OR-002,5 de Oro,Selector de fecha queda deshabilitado tras visitar sorteo sin resultados,,Manual,✅ Pasa,Resuelto en v1.0.1+17,#bug #5deoro #ui
+BUG-CFG-001,SO/Tablet,Cambiar sonido de Terminal bloquea la UI del POS,,Manual,✅ Pasa,Verificado en v1.0.1+20.,#bug #config #ui
+BUG-PAG-199,Pagos,Imprimir detalles del acierto antes de pagar,,Manual,✅ Pasa,Functional (REQ-228 union),#bug #pagos #impresion
+BUG-RN-102,Reglas,Alerta por importe máximo excedido (Issue 102),,Manual,✅ Pasa,"Funciona por jugada individual. Caveat: No aplica al acumulado del carrito.",#bug #reglas #importes
+BUG-CFG-002,Config,PIN visible (sin asteriscos) en pantalla de Alerta por importe,,Manual,⛔ Falla,Falta masking en inputs.,#bug #config #seguridad
+BUG-CFG-003,Config,Desincronización de PIN entre pantallas,,Manual,⛔ Falla,Cambiar PIN en Preferencias no actualiza el de Alertas.,#bug #config #seguridad
+BUG-CFG-004,Config,Falta de botón Confirmar al cambiar PIN existente,,Manual,⛔ Falla,Requiere Enter en teclado.,#bug #config #ui
+BUG-LOT-192,Lotería,QR de Lotería ilegible (v1.0.1+20),,Manual,✅ Pasa,Cerrado por decisión (solo lectura móvil).,#bug #loteria #qr
 REQ-LOT-288,Lotería,Test automático de flujo de venta (v1.0.1+20),,Automático,Pendiente,
 BUG-ORO-311,5 de Oro,Jugada desaparece al intentar emitir con error,,Manual,✅ Pasa,

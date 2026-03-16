@@ -28,8 +28,8 @@ Este archivo es el punto de entrada principal para navegar la base de conocimien
 
 ## 🧪 Testing & Metodología
 - [[methodology/matriz_maestra_todoterreno|📊 Matriz Maestra (Pablo's View)]]
-- [[use_cases/00_INDEX_USE_CASES|🗂️ Índice de Casos de Uso]]
-- [[bug_reports/regression_v1.0.1+12|🐞 Reportes de Bugs activos]]
+- [[use_cases/00_INDEX_USE_CASES|🗂️ Índice de Casos de Uso]] #index #metodología
+- [[bug_reports/regression_v1.0.1+20|🐞 Reportes de Bugs activos (v1.0.1+20)]] #bug #status
 
 ## 🛠️ Herramientas & Agentes
 - [[ai_agents/JONATHAN_ASSISTANT|Reglas de Jonathan's Assistant]]

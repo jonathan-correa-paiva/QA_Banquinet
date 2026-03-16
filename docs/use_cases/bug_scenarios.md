@@ -11,6 +11,7 @@ Los escenarios detallados han sido migrados a archivos `.feature` individuales p
 
 - [[BUG-5OR-003] 5 de Oro: Estado incorrecto del botón ante error de validación](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/use_cases/features/games/5_oro_validation.feature)
 - [[BUG-311] 5 de Oro: Jugada desaparece al intentar emitir con error de comunicación](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/use_cases/features/games/5_oro_validation.feature)
+- [[BUG-LOT-001] Lotería: Dropdown desactualizado y fallo Entero](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/use_cases/features/games/lottery_dropdown_error.feature)
 - [[REQ-288] Lotería: Test automático de flujo de venta](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/use_cases/features/games/automatic_lottery_test.feature)
 - [[REQ-192] Lotería: Impresión de QR en tickets de venta](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/use_cases/features/games/lottery_qr_sales.feature)
 
