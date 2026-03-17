@@ -162,7 +162,16 @@ function formatQAMatrix() {
   }
 
   const vRegex = /v1.0.1\+[0-9]+/;
-  let vName = sheet.getRange(1,1).getValue().toString().match(vRegex) ? sheet.getRange(1,1).getValue().toString().match(vRegex)[0] : "v_Manual";
+  let vCellVal = sheet.getRange(1,1).getValue().toString();
+  let vMatch = vCellVal.match(vRegex);
+  let vName = vMatch ? vMatch[0] : "v_Manual";
+
+  // Si el nombre detectado es muy genérico, intentamos buscar en otras celdas superiores
+  if (vName === "v_Manual") {
+    let checkTitle = sheet.getRange(1, 1, 1, 5).getValues()[0].join(" ");
+    let vMatch2 = checkTitle.match(vRegex);
+    if (vMatch2) vName = vMatch2[0];
+  }
 
   let target = ss.getSheetByName(vName);
   if (!target) target = ss.insertSheet(vName); else target.clear();
@@ -240,53 +249,64 @@ function setupDashboard(sh, lastRow, boundaryRow) {
   const labels = [["TESTS TOTAL", "PASA", "FALLA", "PENDIENTE", "BLOQUEADO", "AUTOMATIZADO", "% AVANCE", "BUGS TOTAL"]];
   sh.getRange("A2:H2").setValues(labels).setFontWeight("bold").setBackground("#1e293b").setFontColor("#ffffff").setHorizontalAlignment("center").setFontSize(9);
   
-  // Rangos estrictos: Baseline desde la fila 7 hasta 1 antes de la frontera de Bugs
-  const baselineEnd = boundaryRow > 7 ? boundaryRow - 1 : 6;
-  const idRange = "A7:A" + baselineEnd;
-  const modRange = "B7:B" + baselineEnd;
-  const tipoRange = "E7:E" + baselineEnd;
-  const estadoRange = "F7:F" + baselineEnd;
+  // === CÁLCULO PROGRAMÁTICO (sin fórmulas, sin problemas de locale) ===
+  // Leemos los datos de la hoja directamente y contamos en JS
+  const allIds    = sh.getRange(7, 1, lastRow - 6, 1).getValues(); // Columna A (IDs)
+  const allTipos  = sh.getRange(7, 5, lastRow - 6, 1).getValues(); // Columna E (Tipo Autom.)
+  const allEstado = sh.getRange(7, 6, lastRow - 6, 1).getValues(); // Columna F (Estado Test)
   
-  // Condición base: Que la columna B (Módulo) tenga texto real.
-  // IMPORTANTE: Se usa "*?*" en vez de "<>" porque al importar CSV las celdas vacías pueden quedar como "" y sheets las cuenta igual.
-  const baseCriteria = modRange + ', "*?*"';
+  var totalTests = 0, pasa = 0, falla = 0, pendiente = 0, bloqueado = 0, automatizado = 0, bugs = 0;
   
-  // Usamos setFormula con comas (,) porque Apps Script traduce automáticamente esto al idioma del Sheets (punto y coma en español).
-  sh.getRange("A3").setFormula('=COUNTIFS(' + baseCriteria + ')'); 
-  sh.getRange("B3").setFormula('=COUNTIFS(' + baseCriteria + ', ' + estadoRange + ', "*Pasa*")');
-  sh.getRange("C3").setFormula('=COUNTIFS(' + baseCriteria + ', ' + estadoRange + ', "*Falla*")');
-  sh.getRange("D3").setFormula('=COUNTIFS(' + baseCriteria + ', ' + estadoRange + ', "*Pendiente*")');
-  sh.getRange("E3").setFormula('=COUNTIFS(' + baseCriteria + ', ' + estadoRange + ', "*Bloqueado*")');
-  sh.getRange("F3").setFormula('=COUNTIFS(' + baseCriteria + ', ' + tipoRange + ', "*Automático*")');
-  sh.getRange("G3").setFormula('=IF(A3>0, B3/A3, 0)').setNumberFormat("0.0%");
-  
-  // Rango para Bugs: A partir de la frontera hasta el final, cuenta los items no vacios.
-  if (boundaryRow <= lastRow) {
-    const bugRowStart = boundaryRow + 1;
-    // Si la seccion es chica o igual, prevenimos error
-    if (bugRowStart <= lastRow) {
-       // Bugs Total (Col A not empty in bugs section, must be actual bug IDs)
-      sh.getRange("H3").setFormula('=COUNTIFS(A' + bugRowStart + ':A' + lastRow + ', "BUG-*")');
+  for (var i = 0; i < allIds.length; i++) {
+    var id = allIds[i][0] ? allIds[i][0].toString().trim() : "";
+    var estado = allEstado[i][0] ? allEstado[i][0].toString() : "";
+    var tipo = allTipos[i][0] ? allTipos[i][0].toString() : "";
+    
+    // Ignorar filas vacías y encabezados de sección (no tienen guión)
+    if (id === "" || id.indexOf("-") === -1) continue;
+    
+    // Separar bugs/reqs del conteo de tests
+    if (id.indexOf("BUG-") !== -1 || id.indexOf("REQ-") !== -1) {
+      bugs++;
     } else {
-      sh.getRange("H3").setValue(0);
+      totalTests++;
     }
-  } else {
-    sh.getRange("H3").setValue(0);
+    
+    // Contar por estado (aplica a todos: tests y bugs)
+    if (estado.indexOf("Pasa") !== -1)           pasa++;
+    else if (estado.indexOf("Falla") !== -1)      falla++;
+    else if (estado.indexOf("Pendiente") !== -1)  pendiente++;
+    else if (estado.indexOf("Bloqueado") !== -1)  bloqueado++;
+    
+    // Contar automatizados
+    if (tipo.indexOf("Automático") !== -1 || tipo.indexOf("Automatico") !== -1) automatizado++;
   }
+  
+  var avance = totalTests > 0 ? pasa / totalTests : 0;
+  
+  // Escribir valores directos - CERO fórmulas, CERO problemas de locale
+  sh.getRange("A3").setValue(totalTests);
+  sh.getRange("B3").setValue(pasa);
+  sh.getRange("C3").setValue(falla);
+  sh.getRange("D3").setValue(pendiente);
+  sh.getRange("E3").setValue(bloqueado);
+  sh.getRange("F3").setValue(automatizado);
+  sh.getRange("G3").setValue(avance).setNumberFormat("0.0%");
+  sh.getRange("H3").setValue(bugs);
 
   const valRange = sh.getRange("A3:H3");
   valRange.setFontSize(14).setFontWeight("bold").setHorizontalAlignment("center").setBackground("#ffffff");
   valRange.setBorder(true, true, true, true, true, true, "#1e293b", SpreadsheetApp.BorderStyle.SOLID);
-  
+
   sh.getRange("B3").setFontColor("#16a34a");
   sh.getRange("C3").setFontColor("#dc2626");
   sh.getRange("D3").setFontColor("#64748b");
   sh.getRange("F3").setFontColor("#7c3aed");
   sh.getRange("G3").setFontColor("#2563eb");
   sh.getRange("H3").setFontColor("#991b1b");
-  
+
   // Format the bugs section header if present
-  if (boundaryRow <= lastRow) {
-    sh.getRange(boundaryRow, 1, 1, 7).setBackground('#991b1b').setFontColor('#ffffff').setFontWeight('bold');
+  if (boundaryRow > 0) {
+    sh.getRange(boundaryRow, 1, 1, sh.getLastColumn()).setBackground("#991b1b").setFontColor("#ffffff").setFontWeight("bold");
   }
 }

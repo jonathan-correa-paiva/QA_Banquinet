@@ -76,7 +76,11 @@
 | Reglas de Negocio | 2 | 0 | 2 | 1 | 0 | 1 |
 | UX Y Navegación | 1 | 0 | 1 | 1 | 0 | 0 |
 | **Bugs (Específicos)** | 12 | 0 | 12 | 8 | 4 | 0 |
-| **TOTAL (Baseline)** | **109** | **66** | **43** | **91** | **4** | **10** |
+| **TOTAL (Baseline)** |- **Total Tests (Baseline):** 137
+- **Tests Ejecutados:** 108
+- **✅ Pasan:** 91
+- **⛔ Fallan:** 4
+- **⏳ Pendientes:** 29 (Proyectado terminar mañana)
 
 ---
 [[bug_reports/minuta_qa_v1.0.1+21|Ver Minuta v21]]
