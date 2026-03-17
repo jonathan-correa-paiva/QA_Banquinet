@@ -1,42 +1,33 @@
-# 📝 Minuta de Reporte QA - v1.0.1+21
+# 🪲 Reporte de Regresión QA - v1.0.1+21
+
 **Fecha:** 2026-03-17
-**Proyecto:** gPOS 1.0
-**Responsable:** Jonathan Correa
+**QA:** Jonathan Correa
+**Estado:** En Progreso (Validación Parcial)
 
 ---
 
-## 📑 Resumen de la Versión
+## Estado de la Build
 
-| Versión | Fecha | Responsable | Estado General |
-| :--- | :--- | :--- | :--- |
-| **v1.0.1+21** | 17/03/2026 | Jonathan Correa | ⏳ Pendiente Instalación |
-
-## 📊 Objetivos de Testeo (v21)
-
-Esta versión se centra en validar las correcciones de Nacho sobre:
-1. **Optimización de Batería**: Verificar si el proceso de "Corte" se mantiene vivo en segundo plano.
-2. **Concurrencia de Paquetes**: Validar si mejora la latencia en las apuestas.
-3. **Refresco de Sorteos**: Confirmar si el auto-refresh funciona tras inactividad.
+> [!IMPORTANT]
+> Los fixes de PIN (BUG-CFG-002/003/004), Lotería dropdown (BUG-LOT-001) y Concurrencia (REVISAR-QUI-001) **NO están en esta build**. Se reportaron a Nacho hoy (17/03). Se verificarán en v22+.
 
 ---
 
-## 📋 Checklist de Validación (Regresión Crítica)
+## Progreso v21
 
-- [ ] **[BUG-CIE-005]** Refresco automático tras periodo de inactividad (Corte).
-- [ ] **Gestión de PIN**: Enmascaramiento en Alerta por Importe y Sincronización con Preferencias.
-- [ ] **Botón Accion**: Validar que el botón vuelva a "Ingresar" tras corregir jugadas inválidas.
-- [ ] **Lotería**: Verificar dropdown de fracciones y opción "Entero".
-
----
-
-## 🧪 Trazabilidad de Evidencias (v21)
-
-*Referencia: [[docs/core/ARCHITECTURE_TRACEABILITY|Manual de Trazabilidad]]*
-
-| Escenario | Resultado | Dialog ID / Timestamp | Obs |
-| :--- | :--- | :--- | :--- |
-| Prueba de Latencia | | | |
-| Auto-refresh 14hs | | | |
+| Tests | Cant. |
+| :--- | :---: |
+| ✅ Pasan | 91 |
+| ⛔ Fallan | 4 |
+| ⏳ Pendientes | 10 |
+| 🚧 Bloqueados | 3 |
+| N/A | 1 |
+| **% Avance** | **83.49%** |
 
 ---
-[[bug_reports/meetings/minuta_2026_03_17|Volver a la Agenda de la Reunión]]
+
+## Referencia
+
+- **Minuta de reunión:** [minuta_2026_03_17](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/meetings/minuta_2026_03_17.md)
+- **Regression detallado:** [regression_v1.0.1+21](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/regression_v1.0.1+21.md)
+- **Matriz:** [matriz_1.0.1+21.csv](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/matriz_1.0.1+21.csv)

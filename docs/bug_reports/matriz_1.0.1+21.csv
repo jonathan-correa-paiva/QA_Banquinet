@@ -3,12 +3,12 @@ ID,Módulo,Descripción del Test,Resultado Esperado,Tipo Autom.,Estado Test,Come
 CONFIGURACIÓN INICIAL,,,,,,,
 CU-CFG-001,Inicial,POS Nuevo escanea Token QR válido y obtiene access_token,Se obtiene access_token y refresh_token válidos; POS queda habilitado con el cierre vigente cargado,Manual,✅ Pasa,
 CU-CFG-002,Inicial,POS Nuevo escanea Token QR vencido (>10m),Sistema rechaza el QR y muestra mensaje de error; solicita nuevo QR o login con usuario/contraseña en bsecurity,Manual,Pendiente,
-CU-CFG-003,Inicial,access_token vencido se refresca automáticamente con refresh_token,La sesión se renueva sin intervención del operador; si falla el refresh solicita usuario y contraseña en bsecurity,Manual,Pendiente,
+CU-CFG-003,Inicial,access_token vencido se refresca automáticamente con refresh_token,La sesión se renueva sin intervención del operador; si falla el refresh solicita usuario y contraseña en bsecurity,Manual,⛔ Falla,"Refresh retorna HTTP 403 (Forbidden) desde bsecurity. No renueva sesión. Log: POST sesiones/refresh -> 403.",#bug #auth #refresh
 CIERRES Y HORARIOS,,,,,,,
 CU-CIE-001,Cierres,Antes de las 14hs: ambos sorteos (Vesp y Noct) están apostables,El cierre muestra Vesp y Noct disponibles; se puede apostar a ambos,Manual,✅ Pasa,
-CU-CIE-002,Cierres,Pasadas las 14hs: solo el sorteo Nocturno queda apostable,El Vespertino desaparece de los sorteos disponibles; solo se puede apostar al Nocturno,Manual,Pendiente,
-CU-CIE-003,Cierres,Pasadas las 20hs: ningún sorteo de Juegos Tradicionales está apostable,Quiniela y Tómbola no permiten nuevas apuestas; el sistema muestra que no hay cierres activos,Manual,Pendiente,
-CU-CIE-004,Cierres,Miércoles pasadas las 20hs: 5 de Oro no disponible hasta las 22:30,El sistema rechaza apuestas al 5 de Oro y no lo muestra hasta que el servidor libere el siguiente cierre,Manual,Pendiente,
+CU-CIE-002,Cierres,Pasadas las 14hs: solo el sorteo Nocturno queda apostable,El Vespertino desaparece de los sorteos disponibles; solo se puede apostar al Nocturno,Manual,✅ Pasa,Verificado manualmente en horario real.
+CU-CIE-003,Cierres,Pasadas las 20hs: ningún sorteo de Juegos Tradicionales está apostable,Quiniela y Tómbola no permiten nuevas apuestas; el sistema muestra que no hay cierres activos,Manual,⛔ Bloqueado,"No se puede cambiar la hora en terminales Sunmi PH3 (dispositivo de pagos). Requiere probar en horario real.",#bloqueado #horario
+CU-CIE-004,Cierres,Miércoles pasadas las 20hs: 5 de Oro no disponible hasta las 22:30,El sistema rechaza apuestas al 5 de Oro y no lo muestra hasta que el servidor libere el siguiente cierre,Manual,⛔ Bloqueado,"Idem CU-CIE-003. Requiere probar miércoles en horario real (20:00-22:30).",#bloqueado #horario
 CU-CIE-005,Cierres,La lista de sorteos se actualiza automáticamente (sin reiniciar POS),Al expirar `fechaCierre` el sistema actualiza los sorteos apostables en forma automática sin intervención del operador,Manual,⛔ Falla,"Falla en build Release Candidate (RC) al mediodía; sin embargo, en debug local funciona correctamente (Nacho). Pendiente de revisión de lógica por entorno.",#bug #cierres #automatico #rc
 QUINIELA,,,,,,,
 QUI-1CS-001,Quiniela,1 cifra: sorteos Vesp+Noct $50 -> carrito $100,Carrito $100 y campos limpios,Automático,✅ Pasa,
@@ -95,8 +95,8 @@ SRT-CRG-001,Config,Ver sorteos actuales cargados,Se muestran los sorteos cargado
 SRT-ACT-002,Config,Actualizar sorteos actuales,Se muestran los nuevos sorteos,Automático,✅ Pasa,
 ANULACIONES,,,,,,,
 CU-CAN-001,Anula,Anular ticket inmediato (Quiniela/Tómbola),Ticket anulado correctamente,Manual,✅ Pasa,
-CU-CAN-002,Anula,Anular ticket diferido (5 de Oro),Permite anular siempre que el sorteo no haya cerrado o pasado el tiempo límite,Manual,Pendiente,
-CU-CAN-003,Anula,Intentar anular ticket fuera de plazo,"Sistema arroja error ""Anulación fuera de plazo""",Manual,Pendiente,
+CU-CAN-002,Anula,Anular ticket diferido (5 de Oro),Permite anular siempre que el sorteo no haya cerrado o pasado el tiempo límite,Manual,✅ Pasa,Anula correctamente sorteos futuros.
+CU-CAN-003,Anula,Intentar anular ticket fuera de plazo,"Sistema arroja error ""Anulación fuera de plazo""",Manual,Pendiente,"Pendiente: se dejó un ticket para probar post-sorteo. Nota: pide CI tras un rato (funcionalidad futura).",
 CU-CAN-004,Anula,Anular ticket de Juego Instantáneo (Digitales / Recargas),Informa que el producto no permite anulación,Manual,Pendiente,
 PAGOS DE ACIERTOS,,,,,,,
 CU-PAG-001,Pagos,Pagar acierto,"Validación exitosa; muestra opción pagar/no pagar con monto. Al pagar muestra nro doc, monto, lista de jugadas y total.",Manual,✅ Pasa,Flujo visual completo verificado y correcto.
@@ -111,13 +111,13 @@ IMPRESIÓN,,,,,,,
 CU-IMP-001,Printer,Impresión de ticket legible,CB legible por scanner; datos de agencia y fecha correctos,Manual,✅ Pasa,
 CU-IMP-002,Printer,Falta de papel durante impresión,Sistema detecta error y permite re-imprimir una vez cargado el papel,Manual,✅ Pasa,
 SIN CONECTIVIDAD (A DETERMINAR),,,,,,,
-CU-OFF-001,Offline,Intento de venta sin internet,Sistema debe informar falta de conexión (si no hay modo offline permitido),Manual,Pendiente,Pendiente de definir caso de uso
-CU-OFF-002,Offline,Reintento automático al recuperar conexión,Sincronización de transacciones pendientes en el POS,Manual,Pendiente,Pendiente de definir caso de uso
+CU-OFF-001,Offline,Intento de venta sin internet,Sistema debe informar falta de conexión (si no hay modo offline permitido),Manual,✅ Pasa,"Al apagar WiFi y datos aparece 'Sin conexión' en rojo inmediatamente. Al apagar solo datos, se reconecta por WiFi automáticamente."
+CU-OFF-002,Offline,Reintento automático al recuperar conexión,Sincronización de transacciones pendientes en el POS,Manual,N/A,"App es casi stateless: al recuperar conexión sigue en el carrito sin problemas. No hay transacciones offline pendientes que sincronizar. Revisar si este caso aplica.",#revisar
 UX Y NAVEGACIÓN,,,,,,,
 CU-NAV-001,UX,Tiempo de respuesta entre pantallas < 1s,Navegación fluida sin lags perceptibles,Manual,✅ Pasa,Resuelto en v1.0.1+19. Confirmada fluidez en release mode.
 REGLAS DE NEGOCIO (SORTEOS),,,,,,,
 CU-RN-001,Reglas,Control de horario de cierre estricto,No permite vender Quiniela/Tómbola si el reloj del POS > hora de cierre del sorteo,Manual,Pendiente,Revisar caso de uso
-CU-RN-002,Reglas,Importes mínimos y máximos por apuesta,Sistema valida que la apuesta esté en el rango permitido antes de emitir,Manual,Pendiente,
+CU-RN-002,Reglas,Importes mínimos y máximos por apuesta,Sistema valida que la apuesta esté en el rango permitido antes de emitir,Manual,✅ Pasa,Sin problemas en casi todas las combinaciones probadas.
 ALTERNATIVAS,,,,,,,
 CU-ALT-001,Alternativas,Jugada rechazada SIN alternativa,Sistema informa jugada rechazada,Manual,✅ Pasa,
 CU-ALT-002,Alternativas,Jugada rechazada CON alternativa,Sistema propone alternativas parciales de la banca,Manual,✅ Pasa,

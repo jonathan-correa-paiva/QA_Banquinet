@@ -2,29 +2,23 @@
 
 **Fecha de Revisión:** 17/03/2026
 **QA:** Jonathan Correa
-**Grado de Certeza:** Pendiente de Validación (Carga de v21)
+**Grado de Certeza:** En Progreso (Validación Parcial)
 
 ---
 
-## 🛠️ En Verificación para v1.0.1+21 (Fixes de Nacho)
+## 🛠️ Estado de Verificación v1.0.1+21
 
-Estos puntos han sido reportados como corregidos por Nacho y requieren validación exhaustiva en esta versión:
+> [!IMPORTANT]
+> Los fixes de PIN (BUG-CFG-002/003/004), Lotería dropdown (BUG-LOT-001) y Concurrencia (REVISAR-QUI-001) **NO están incluidos en esta build**. Se reportaron a Nacho hoy. Se verificarán en v22+.
 
-### [BUG-CIE-005] Cierres: Refresco automático tras periodo de inactividad (Corte) #bug #cierres #automatico #rc
-- **Estado anterior:** ⛔ Falla.
-- **Objetivo v21:** Confirmar si el auto-refresh funciona tras inactividad y si la optimización de batería no "mata" el proceso.
+### [BUG-CIE-005] Cierres: Refresco automático tras inactividad (Corte) #bug #cierres #automatico #rc
+- **Estado:** ⛔ Falla. El Doze Mode sigue matando el proceso. Sin fix en +21.
 
-### [BUG-CFG-002/003/004] Gestión de PIN: Seguridad y Sincronización #bug #config #seguridad
-- **Estado anterior:** ⛔ Falla.
-- **Objetivo v21:** Validar enmascaramiento en Alertas por Importe y sincronización con Preferencias.
-
-### [BUG-LOT-001] Lotería: Dropdown de fracciones y modo "Entero" #bug #loteria #dropdown #stock
-- **Estado anterior:** ⛔ Falla.
-- **Objetivo v21:** Verificar dropdown de fracciones y opción "Entero".
-
-### [REVISAR-QUI-001] Carrito Mixto: Optimización de Concurrencia (Latencia)
-- **Estado anterior:** 🔍 Investigación (Application Hang).
-- **Objetivo v21:** Validar si mejora la latencia en las apuestas y evita el bloqueo de UI.
+### [CU-CFG-003] 🆕 Auth: Refresh Token retorna 403 #bug #auth #refresh
+- **Estado:** ⛔ Falla.
+- **Evidencia:** `POST sesiones/refresh` → HTTP 403 (Forbidden) desde bsecurity.
+- **Log:** `DioAdapter exception: POST .../bsecurity/sesiones/refresh - 403 - The supplied authentication is not authorized to access this resource`
+- **Impacto:** La sesión no se renueva automáticamente. Requiere revisión del backend.
 
 ---
 
@@ -35,10 +29,15 @@ Estos puntos han sido reportados como corregidos por Nacho y requieren validaci�
 
 ---
 
-## 🔍 Objetivos de Testeo Adicionales (v21)
+## 🔍 Pendientes de Testeo (v21)
 
-- **Optimización de Batería**: Verificar si el proceso de "Corte" se mantiene vivo en segundo plano.
-- **Botón Acción**: Validar que el botón vuelva a "Ingresar" tras corregir jugadas inválidas.
+- **CU-CAN-003**: Se dejó un ticket para probar anulación post-sorteo.
+- **CU-CAN-004**: Probar anulación de Recargas/Pines (productos digitales).
+- **CU-PAG-004**: Premio Mayor → dirigir a Banca.
+- **SUP-INV-002**: Bloqueado, sin acceso a datos de Supermatch.
+- **CU-CIE-003/004**: Bloqueado, requiere probar en horario real (Sunmi PH3 no permite cambiar hora).
+- **Quiniela (2CA/2CB/3CA/3CB)**: Definir si los límites mínimos están implementados.
+- **Lotería Dropdown**: Investigar lógica de stock (enteros de 100 fracciones).
 
 ---
 
@@ -46,13 +45,13 @@ Estos puntos han sido reportados como corregidos por Nacho y requieren validaci�
 
 ## 📈 PROGRESO DE LA REGRESIÓN POR VERSIÓN
 
-| VERSIÓN | TESTS TOTAL | ✅ PASA | ⛔ FALLA | ⏳ PEND | 🚧 BLOQ | % AVANCE |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **v1.0.1+21** | 109 | 87 | 2 | 20 | 0 | 79.82% |
-| **v1.0.1+20** | 109 | 91 | 1 | 17 | 0 | 83.49% |
-| **v1.0.1+19** | 109 | 32 | 1 | 76 | 0 | 29.36% |
-| **v1.0.1+17** | 210 | 3 | 5 | 202 | 0 | 1.43% |
-| **v1.0.1+12** | 61 | 37 | 6 | 18 | 0 | 60.66% |
+| VERSIÓN | TESTS TOTAL | ✅ PASA | ⛔ FALLA | ⏳ PEND | 🚧 BLOQ | N/A | % AVANCE |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **v1.0.1+21** | 109 | 91 | 4 | 10 | 3 | 1 | 83.49% |
+| **v1.0.1+20** | 109 | 91 | 1 | 17 | 0 | 0 | 83.49% |
+| **v1.0.1+19** | 109 | 32 | 1 | 76 | 0 | 0 | 29.36% |
+| **v1.0.1+17** | 210 | 3 | 5 | 202 | 0 | 0 | 1.43% |
+| **v1.0.1+12** | 61 | 37 | 6 | 18 | 0 | 0 | 60.66% |
 
 ---
 
@@ -72,14 +71,14 @@ Estos puntos han sido reportados como corregidos por Nacho y requieren validaci�
 | Pagos | 8 | 1 | 7 | 7 | 0 | 1 |
 | Alternativas | 4 | 1 | 3 | 4 | 0 | 0 |
 | Carrito | 4 | 3 | 1 | 4 | 0 | 0 |
-| Config. Inicial | 3 | 0 | 3 | 1 | 0 | 2 |
-| Cierres | 5 | 0 | 5 | 1 | 1 | 3 |
+| Config. Inicial | 3 | 0 | 3 | 1 | 1 | 1 |
+| Cierres | 5 | 0 | 5 | 2 | 1 | 2 |
 | Impresión | 2 | 0 | 2 | 2 | 0 | 0 |
-| Sin Conectividad | 2 | 0 | 2 | 0 | 0 | 2 |
-| Reglas de Negocio | 2 | 0 | 2 | 0 | 0 | 2 |
+| Sin Conectividad | 2 | 0 | 2 | 1 | 0 | 0 |
+| Reglas de Negocio | 2 | 0 | 2 | 1 | 0 | 1 |
 | UX Y Navegación | 1 | 0 | 1 | 1 | 0 | 0 |
 | **Bugs (Específicos)** | 12 | 0 | 12 | 8 | 4 | 0 |
-| **TOTAL (Baseline)** | **109** | **66** | **43** | **87** | **2** | **20** |
+| **TOTAL (Baseline)** | **109** | **66** | **43** | **91** | **4** | **10** |
 
 ---
 [[bug_reports/minuta_qa_v1.0.1+21|Ver Minuta v21]]
