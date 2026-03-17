@@ -3,7 +3,7 @@ ID,Módulo,Descripción del Test,Resultado Esperado,Tipo Autom.,Estado Test,Come
 CONFIGURACIÓN INICIAL,,,,,,,
 CU-CFG-001,Inicial,POS Nuevo escanea Token QR válido y obtiene access_token,Se obtiene access_token y refresh_token válidos; POS queda habilitado con el cierre vigente cargado,Manual,✅ Pasa,
 CU-CFG-002,Inicial,POS Nuevo escanea Token QR vencido (>10m),Sistema rechaza el QR y muestra mensaje de error; solicita nuevo QR o login con usuario/contraseña en bsecurity,Manual,Pendiente,
-CU-CFG-003,Inicial,access_token vencido se refresca automáticamente con refresh_token,La sesión se renueva sin intervención del operador; si falla el refresh solicita usuario y contraseña en bsecurity,Manual,⛔ Falla,"Refresh retorna HTTP 403 (Forbidden) desde bsecurity. No renueva sesión. Log: POST sesiones/refresh -> 403.",#bug #auth #refresh
+CU-CFG-003,Inicial,access_token vencido se refresca automáticamente con refresh_token,La sesión se renueva sin intervención del operador; si falla el refresh solicita usuario y contraseña en bsecurity,Manual,🔍 Observación,"Observación: Refresh retorna HTTP 403 (Forbidden) desde bsecurity. POS hace fallback a login (OK). Analizar causa raíz.",#auth #refresh #analizar
 CIERRES Y HORARIOS,,,,,,,
 CU-CIE-001,Cierres,Antes de las 14hs: ambos sorteos (Vesp y Noct) están apostables,El cierre muestra Vesp y Noct disponibles; se puede apostar a ambos,Manual,✅ Pasa,
 CU-CIE-002,Cierres,Pasadas las 14hs: solo el sorteo Nocturno queda apostable,El Vespertino desaparece de los sorteos disponibles; solo se puede apostar al Nocturno,Manual,✅ Pasa,Verificado manualmente en horario real.

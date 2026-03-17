@@ -1,10 +1,10 @@
-# 🪲 BUG-CFG-003: Refresh Token retorna HTTP 403
+# BUG-CFG-003: Refresh Token retorna HTTP 403
 
 **Fecha:** 2026-03-17
 **Versión:** v1.0.1+21
 **Módulo:** Autenticación (bsecurity)
 **Severidad:** Alta
-**Estado:** ⛔ Falla
+**Estado:** Falla
 
 ---
 
@@ -83,11 +83,13 @@ Al intentar renovar la sesión con `POST sesiones/refresh`, el servidor bsecurit
 - Tras el 403, el POS hace fallback a `POST login` exitosamente.
 - El usuario no percibe el fallo porque el login automático funciona, pero **la sesión no se renueva silenciosamente** como debería.
 
-## Hipótesis
+Tras el fallo del refresh (403), el POS realiza una petición `POST login` inmediata. Esto indica que el sistema tiene las credenciales en memoria (o las solicita al "bautismo" inicial) y las re-envía para obtener un nuevo par de tokens.
 
-1. El refresh token tiene un TTL muy corto en bsecurity y ya está vencido cuando el POS lo usa.
-2. El refresh token se invalida al hacer login desde otro dispositivo o sesión.
-3. Problema de configuración en el entorno de testing.
+**Confirmación en Log (Líneas 5013-5018):**
+1. `sesiones/refresh` -> 403 Forbidden.
+2. `login` -> 200 OK (Nuevo access_token otorgado).
+
+Esto valida que la **renovación silenciosa está rota**, ya que el POS "se rinde" tras el primer intento de refresh y opta por un login completo para no bloquear al usuario.
 
 ## Impacto
 

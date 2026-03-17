@@ -28,6 +28,6 @@
 
 ## Referencia
 
-- **Minuta de reunión:** [minuta_2026_03_17](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/meetings/minuta_2026_03_17.md)
+- **Minuta de reunión (17/03):** [minuta_2026_03_17](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/meetings/minuta_2026_03_17.md) — *Incluye escenarios Gherkin v20+v21 y observaciones de logs.*
 - **Regression detallado:** [regression_v1.0.1+21](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/regression_v1.0.1+21.md)
-- **Matriz:** [matriz_1.0.1+21.csv](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/matriz_1.0.1+21.csv)
+- **Matriz de casos:** [matriz_1.0.1+21.csv](file:///home/jonathan.correa/Projects/QA_Banquinet/docs/bug_reports/matriz_1.0.1+21.csv)

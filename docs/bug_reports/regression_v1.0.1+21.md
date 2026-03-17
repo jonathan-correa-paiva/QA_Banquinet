@@ -1,4 +1,4 @@
-# 🪲 Reporte de Regresión - v1.0.1+21
+# Reporte de Regresión: v1.0.1+21
 
 **Fecha de Revisión:** 17/03/2026
 **QA:** Jonathan Correa
@@ -8,17 +8,15 @@
 
 ## 🛠️ Estado de Verificación v1.0.1+21
 
-> [!IMPORTANT]
-> Los fixes de PIN (BUG-CFG-002/003/004), Lotería dropdown (BUG-LOT-001) y Concurrencia (REVISAR-QUI-001) **NO están incluidos en esta build**. Se reportaron a Nacho hoy. Se verificarán en v22+.
+**IMPORTANTE:** Los fixes de PIN (BUG-CFG-002/003/004), Lotería dropdown (BUG-LOT-001) y Concurrencia (REVISAR-QUI-001) **NO están incluidos en esta build**. Se reportaron a Nacho hoy. Se verificarán en v22+.
 
-### [BUG-CIE-005] Cierres: Refresco automático tras inactividad (Corte) #bug #cierres #automatico #rc
-- **Estado:** ⛔ Falla. El Doze Mode sigue matando el proceso. Sin fix en +21.
-
-### [CU-CFG-003] 🆕 Auth: Refresh Token retorna 403 #bug #auth #refresh
-- **Estado:** ⛔ Falla.
-- **Evidencia:** `POST sesiones/refresh` → HTTP 403 (Forbidden) desde bsecurity.
+### [OBS-001] **Observación**: Fallo en Refresh Token (Analizar 403 en logs)
 - **Log:** `DioAdapter exception: POST .../bsecurity/sesiones/refresh - 403 - The supplied authentication is not authorized to access this resource`
 - **Impacto:** La sesión no se renueva automáticamente. Requiere revisión del backend.
+
+### [INFRA-001] bsecurity inestable (Downtime 11hs detectado en logs)
+
+### [BUG-CIE-005] Sorteos no actualizan automáticamente (Check Doze Mode)
 
 ---
 

@@ -36,9 +36,11 @@ El `CheckConnectionTask` del bol-api falló con **timeout de 30 segundos** de fo
 }
 ```
 
-## Impacto en CU-CIE-005
+## Relación con Pruebas de Cierre (BUG-CIE-005)
 
-El POS no pudo actualizar sorteos durante la noche porque **bsecurity estaba caído**, no necesariamente por el Doze Mode de Android. La prueba de refresco automático nocturno **debe repetirse** con el backend estable para aislar la causa real.
+La caída prolongada de bsecurity durante la madrugada del 17/03 actuó como un **bloqueador externo** para la validación del refresco automático de sorteos (Doze Mode). El POS no pudo actualizar sorteos porque el servicio de autenticación/backend no respondía, independientemente del estado del proceso en Android.
+
+Se requiere repetir la prueba de inactividad nocturna con bsecurity estable para confirmar si el Doze Mode persiste como problema.
 
 ## Observación adicional: 502 Bad Gateway
 
