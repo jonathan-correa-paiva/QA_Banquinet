@@ -1,5 +1,5 @@
 v1.0.1+21,,,,,,,
-ID,Módulo,Descripción del Test,Resultado Esperado,Tipo Autom.,Estado Test,Comentarios,Tags
+ID,Módulo,Descripción del Test,Resultado Esperado,Tipo Autom.,Estado Test,Comentarios,Tags,Foco_Meet
 CONFIGURACIÓN INICIAL,,,,,,,
 CU-CFG-001,Inicial,POS Nuevo escanea Token QR válido y obtiene access_token,Se obtiene access_token y refresh_token válidos; POS queda habilitado con el cierre vigente cargado,Manual,✅ Pasa,
 CU-CFG-002,Inicial,POS Nuevo escanea Token QR vencido (>10m),Sistema rechaza el QR y muestra mensaje de error; solicita nuevo QR o login con usuario/contraseña en bsecurity,Manual,Pendiente,

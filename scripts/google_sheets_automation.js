@@ -236,6 +236,12 @@ function formatQAMatrix() {
         estadoCell.setBackground("#f1f5f9").setFontColor("#475569");
       }
       if (i % 2 === 0) sh.getRange(r, 1, 1, lastCol).setBackground("#fdfdfd");
+      
+      // Resaltado de ítems para la reunión (Columna J / Foco_Meet)
+      const focoMeet = sh.getRange(r, 9).getValue().toString().toUpperCase();
+      if (focoMeet === "X" || focoMeet === "MEET") {
+        sh.getRange(r, 1, 1, lastCol).setBackground("#fef9c3"); // Amarillo suave para la meet
+      }
     }
   }
 
